@@ -9,11 +9,11 @@
 <meta name="description" content="Conte sobre o seu projeto. A oFruto conduz até uma conversa com o parceiro certo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0a0a09;--bg-2:#111110;--line:rgba(240,238,228,.14);--line-2:rgba(240,238,228,.07);
-    --text:#f0eee4;--muted:#8f8e84;--muted-2:#605f56;
-    --f:"Poppins","Helvetica Neue",Helvetica,Arial,sans-serif;--hand:"Caveat",cursive;--maxw:820px;--ease:cubic-bezier(.22,.61,.36,1)}
+  :root{--bg:#000000;--bg-2:#111110;--line:rgba(240,238,228,.14);--line-2:rgba(240,238,228,.07);
+    --text:#f5f5f3;--muted:#8f8e84;--muted-2:#605f56;
+    --f:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;--hand:"Caveat",cursive;--maxw:820px;--ease:cubic-bezier(.22,.61,.36,1)}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--text);font-family:var(--f);line-height:1.55;-webkit-font-smoothing:antialiased;font-weight:400}
@@ -24,7 +24,7 @@
   .nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   .nav-inner{max-width:1200px;margin:0 auto;padding:0 clamp(22px,4vw,40px);display:flex;align-items:center;justify-content:space-between;height:70px}
   .logo{height:17px}
-  .back{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:1px solid var(--line);border-radius:100px;padding:.55rem 1.1rem;transition:background .3s,color .3s,border-color .3s}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:1px solid var(--line);border-radius:4px;padding:.55rem 1.1rem;transition:background .3s,color .3s,border-color .3s}
   .back:hover{background:var(--text);color:#0a0a09;border-color:var(--text)}
   .back svg{width:14px;height:14px}
 
@@ -54,7 +54,7 @@
   .opt.sel{border-color:var(--text);background:var(--bg-2)}
 
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font-family:var(--f);font-weight:600;font-size:.95rem;
-    padding:1.05rem 2rem;border-radius:100px;cursor:pointer;border:1px solid transparent;background:var(--text);color:#0a0a09;transition:transform .3s,background .3s}
+    padding:1.05rem 2rem;border-radius:4px;cursor:pointer;border:1px solid transparent;background:var(--text);color:#0a0a09;transition:transform .3s,background .3s}
   .btn:hover{transform:translateY(-2px);background:#fff}
   .submit-row{margin-top:36px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
   .note{color:var(--muted-2);font-size:.85rem;max-width:36ch}
@@ -77,9 +77,9 @@
   .modal-card p{color:var(--muted);font-size:.95rem;margin:14px 0}
   .modal-card .more{display:inline-block;color:var(--text);text-decoration:underline;text-underline-offset:3px;font-size:.9rem;font-weight:500;margin-bottom:8px}
   .modal-actions{display:flex;gap:12px;margin-top:24px}
-  .btn-reject{flex:1;background:none;border:1px solid var(--line);color:var(--text);border-radius:100px;padding:.95rem 1rem;cursor:pointer;font-family:var(--f);font-weight:600;font-size:.92rem;transition:border-color .3s,background .3s}
+  .btn-reject{flex:1;background:none;border:1px solid var(--line);color:var(--text);border-radius:4px;padding:.95rem 1rem;cursor:pointer;font-family:var(--f);font-weight:600;font-size:.92rem;transition:border-color .3s,background .3s}
   .btn-reject:hover{border-color:var(--muted);background:var(--bg)}
-  .btn-accept{flex:1;background:var(--text);color:#0a0a09;border:0;border-radius:100px;padding:.95rem 1rem;cursor:pointer;font-family:var(--f);font-weight:600;font-size:.92rem;transition:background .3s}
+  .btn-accept{flex:1;background:var(--text);color:#0a0a09;border:0;border-radius:4px;padding:.95rem 1rem;cursor:pointer;font-family:var(--f);font-weight:600;font-size:.92rem;transition:background .3s}
   .btn-accept:hover{background:#fff}
 
   footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted-2);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
