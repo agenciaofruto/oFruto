@@ -99,9 +99,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .modal .sub{color:var(--ink-2);font-size:.92rem;margin-bottom:26px}
 .grp{margin-bottom:18px}
 .grp label{display:block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-bottom:8px}
-.grp input{width:100%;background:var(--surface-2);border:1px solid var(--brd);border-radius:12px;padding:.85rem 1rem;font-size:.95rem;color:var(--ink);transition:border-color .3s}
-.grp input::placeholder{color:var(--ink-3)}
-.grp input:focus{outline:none;border-color:var(--brd-2)}
+.grp input,.grp textarea{width:100%;background:var(--surface-2);border:1px solid var(--brd);border-radius:12px;padding:.85rem 1rem;font-size:.95rem;color:var(--ink);transition:border-color .3s;font-family:inherit;resize:vertical}
+.grp input::placeholder,.grp textarea::placeholder{color:var(--ink-3)}
+.grp input:focus,.grp textarea:focus{outline:none;border-color:var(--brd-2)}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 .opt{position:relative}
 .opt input{position:absolute;opacity:0;inset:0;cursor:pointer;width:100%;height:100%}
@@ -252,6 +252,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
             <label class="opt"><input type="radio" name="busca" value="Não sei ainda"><span>não sei ainda</span></label>
           </div>
         </div>
+        <div class="grp">
+          <label>Observações</label>
+          <textarea id="f-obs" rows="3" placeholder="Quer contar mais alguma coisa específica? (opcional)"></textarea>
+        </div>
         <button type="submit" class="btn btn-glass">enviar</button>
         <div class="modal-msg" id="modalMsg"></div>
       </form>
@@ -267,10 +271,34 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <script>
   /* ===== CONFIG =====
      FORM_ENDPOINT: endpoint que ARMAZENA os envios (Formspree/Getform/CRM próprio).
-     Vazio = cai no WhatsApp (plano atual). Quando o CRM existir, só preencher aqui —
-     o formulário e a mecânica do modal continuam iguais. */
+     Vazio = cai no WhatsApp + e-mail (plano atual). Quando o CRM existir, só
+     preencher aqui — o formulário e a mecânica do modal continuam iguais. */
   const FORM_ENDPOINT="";
   const WHATSAPP="5519997176696";
+  const EMAIL="comercial@ofruto.com";
+
+  /* frases naturais pra "o que você busca" dentro da mensagem corrida */
+  const BUSCA_FRASE={
+    "Começar do zero":"começar do zero",
+    "Organizar minha marca":"organizar minha marca",
+    "Crescer/escalar":"crescer e escalar",
+    "Não sei ainda":"ainda não sei bem o que preciso"
+  };
+
+  /* monta a mensagem em texto corrido, com as informações que a pessoa
+     preencheu — igual um pré-molde de apresentação, não uma lista de campos */
+  function montarMensagem(data){
+    const linhas=['Oi! '+data.nome+' aqui, vim do site.'];
+    const partes=[];
+    if(data.area) partes.push('trabalho com '+data.area);
+    if(data.busca) partes.push('meu objetivo é '+(BUSCA_FRASE[data.busca]||data.busca));
+    linhas.push((partes.length?partes.join(', ')+', ':'')+'quero entender como a oFruto e o Davi pode me ajudar!');
+    if(data.obs){ linhas.push(''); linhas.push(data.obs); }
+    linhas.push('');
+    linhas.push('WhatsApp: '+data.whats);
+    if(data.insta) linhas.push('Instagram: '+data.insta);
+    return linhas.join('\n');
+  }
 
   document.getElementById('logoBtn').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 
@@ -296,7 +324,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     if(!v('f-nome')||!v('f-whats')){msg.textContent='Preencha ao menos nome e WhatsApp.';return;}
     msg.textContent='Enviando...';
     const busca=(document.querySelector('input[name="busca"]:checked')||{}).value||'';
-    const data={nome:v('f-nome'),whats:v('f-whats'),insta:v('f-insta'),area:v('f-area'),busca};
+    const data={nome:v('f-nome'),whats:v('f-whats'),insta:v('f-insta'),area:v('f-area'),busca,obs:v('f-obs')};
 
     if(FORM_ENDPOINT){
       try{
@@ -305,13 +333,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         return finish();
       }catch(_){msg.textContent='Não consegui enviar agora. Abrindo o WhatsApp...';}
     }
-    const t=['*Novo contato pelo site oFruto*','',
-      '*Nome:* '+data.nome,'*WhatsApp:* '+data.whats,
-      data.insta?'*Instagram:* '+data.insta:'',
-      data.area?'*Área:* '+data.area:'',
-      data.busca?'*Busca:* '+data.busca:''
-    ].filter(Boolean).join('\n');
-    window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(t),'_blank');
+    const texto=montarMensagem(data);
+    window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(texto),'_blank');
+    const mailLink=document.createElement('a');
+    mailLink.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Novo contato pelo site — '+data.nome)+'&body='+encodeURIComponent(texto);
+    mailLink.click();
     finish();
   });
 
